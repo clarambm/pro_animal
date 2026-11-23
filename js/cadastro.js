@@ -1,5 +1,6 @@
 // js/cadastro.js
 import { supabase } from './supabase.js';
+import { normalizarWhatsApp, formatarWhatsApp } from './telefone.js';
 
 // Protege a página
 const { data: { session } } = await supabase.auth.getSession();
@@ -14,6 +15,11 @@ const btnCadastrar = document.getElementById('btn-cadastrar');
 const msgStatus = document.getElementById('msg-status');
 const inputFoto = document.getElementById('foto');
 const previewFoto = document.getElementById('preview-foto');
+const inputWhatsApp = document.getElementById('whatsapp_contato');
+
+inputWhatsApp.addEventListener('blur', () => {
+  inputWhatsApp.value = formatarWhatsApp(inputWhatsApp.value);
+});
 
 // Botão de sair
 document.getElementById('btn-sair').addEventListener('click', async () => {
@@ -47,7 +53,17 @@ form.addEventListener('submit', async (evento) => {
   const sexo = document.getElementById('sexo').value;
   const idade = document.getElementById('idade').value;
   const descricao = document.getElementById('descricao').value.trim();
+  const nomeContato = document.getElementById('nome_contato').value.trim();
+  const whatsappContato = document.getElementById('whatsapp_contato').value.trim();
   const arquivoFoto = inputFoto.files[0];
+
+  const whatsappNormalizado = normalizarWhatsApp(whatsappContato);
+  if (!whatsappNormalizado) {
+    msgStatus.textContent = 'Informe um WhatsApp brasileiro válido, com DDD.';
+    msgStatus.className = 'msg-status erro';
+    inputWhatsApp.focus();
+    return;
+  }
 
   if (!arquivoFoto) {
     msgStatus.textContent = 'Selecione uma foto.';
@@ -92,6 +108,8 @@ form.addEventListener('submit', async (evento) => {
         sexo,
         idade,
         descricao,
+        nome_contato: nomeContato,
+        whatsapp_contato: whatsappNormalizado,
         foto_url: fotoUrl,
       }]);
 
