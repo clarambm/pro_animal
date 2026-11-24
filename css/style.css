@@ -67,7 +67,7 @@ a {
 }
 
 .topo nav a:hover {
-  background-color: #0000000c;
+  background-color: #fff1dab9;
 }
 
 .topo nav a.ativo {
@@ -437,6 +437,29 @@ main h1 {
   margin-bottom: 24px;
   line-height: 1.6;
   color: #4B5F34;
+}
+
+/* ===== faq ===== */
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  text-align: left;
+}
+
+.card-faq {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  text-align: left;
+  padding: 16px;
+  transition: transform 0.2s;
+}
+
+.card-faq h3 {
+  margin: 12px 0 10px;
+  font-size: 1.1rem;
 }
 
 /* ===== Responsivo básico ===== */
