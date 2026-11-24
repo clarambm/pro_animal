@@ -58,11 +58,21 @@
       <label for="descricao">Sobre o animal</label>
       <textarea id="descricao" name="descricao" rows="4" placeholder="Conte um pouco sobre a personalidade, história ou cuidados especiais desse animal..."></textarea>
 
-      <label for="contato_nome">Nome do responsável</label>
-      <input type="text" id="contato_nome" name="contato_nome" required>
+      <fieldset class="form-contato">
+        <legend>Contato para adoção</legend>
+        <p class="form-ajuda">Informe os dados da pessoa que receberá as mensagens de quem tiver interesse em adotar este animal.</p>
 
-      <label for="contato_telefone">Telefone do Responsável</label>
-      <input type="text" id="contato_telefone" name="contato_telefone" required>
+        <label for="nome_contato">Nome do responsável *</label>
+        <input type="text" id="nome_contato" name="nome_contato" maxlength="100"
+               placeholder="Ex.: Maria Silva" autocomplete="name" required>
+
+        <label for="whatsapp_contato">WhatsApp do responsável (com DDD) *</label>
+        <input type="tel" id="whatsapp_contato" name="whatsapp_contato"
+               inputmode="tel" autocomplete="tel" maxlength="20" required
+               placeholder="Ex.: (11) 99999-9999"
+               aria-describedby="ajuda-whatsapp">
+        <p id="ajuda-whatsapp" class="form-ajuda">Aceita (11) 99999-9999 ou 11999999999. Este número aparecerá publicamente e será usado no botão “Chamar no WhatsApp”. Cadastre apenas um contato autorizado.</p>
+      </fieldset>
 
       <label for="foto">Foto do animal</label>
       <input type="file" id="foto" name="foto" accept="image/*" required>

@@ -1,5 +1,6 @@
 // js/editar.js
 import { supabase } from './supabase.js';
+import { normalizarWhatsApp, formatarWhatsApp } from './telefone.js';
 
 // Protege a página: só quem estiver logado acessa
 const { data: { session } } = await supabase.auth.getSession();
@@ -17,6 +18,11 @@ const btnSalvar = document.getElementById('btn-salvar');
 const msgStatus = document.getElementById('msg-status');
 const inputFoto = document.getElementById('foto');
 const previewFoto = document.getElementById('preview-foto');
+const inputWhatsApp = document.getElementById('whatsapp_contato');
+
+inputWhatsApp.addEventListener('blur', () => {
+  inputWhatsApp.value = formatarWhatsApp(inputWhatsApp.value);
+});
 
 let fotoUrlAtual = '';
 
@@ -43,6 +49,8 @@ async function carregarAnimal() {
   document.getElementById('sexo').value = data.sexo ?? '';
   document.getElementById('idade').value = data.idade ?? '';
   document.getElementById('descricao').value = data.descricao ?? '';
+  document.getElementById('nome_contato').value = data.nome_contato ?? '';
+  inputWhatsApp.value = formatarWhatsApp(data.whatsapp_contato);
 
   fotoUrlAtual = data.foto_url ?? '';
   previewFoto.src = fotoUrlAtual;
@@ -63,6 +71,15 @@ inputFoto.addEventListener('change', () => {
 // Salvar alterações 
 form.addEventListener('submit', async (evento) => {
   evento.preventDefault();
+
+  const whatsappContato = document.getElementById('whatsapp_contato').value.trim();
+  const whatsappNormalizado = normalizarWhatsApp(whatsappContato);
+  if (!whatsappNormalizado) {
+    msgStatus.textContent = 'Informe um WhatsApp brasileiro válido, com DDD.';
+    msgStatus.className = 'msg-status erro';
+    inputWhatsApp.focus();
+    return;
+  }
 
   btnSalvar.disabled = true;
   btnSalvar.textContent = 'SALVANDO...';
@@ -93,6 +110,8 @@ form.addEventListener('submit', async (evento) => {
         sexo: document.getElementById('sexo').value,
         idade: document.getElementById('idade').value,
         descricao: document.getElementById('descricao').value.trim(),
+        nome_contato: document.getElementById('nome_contato').value.trim(),
+        whatsapp_contato: whatsappNormalizado,
         foto_url: fotoUrl,
       })
       .eq('id', idAnimal);
