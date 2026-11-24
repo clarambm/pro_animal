@@ -981,6 +981,13 @@ main:has(#lista-animais) #busca {
   align-self: stretch;
 }
 
+/* ===== logo===== */
+.logo img {
+  height: 90px;
+  width: auto;
+  display: block;
+}
+
 /* ===== responsivo da home ===== */
 @media (max-width: 800px) {
   main.home {
