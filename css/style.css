@@ -1038,3 +1038,8 @@ main:has(#lista-animais) #busca {
     gap: 8px;
   }
 }
+
+/* ===== página de campanha vazia===== */
+.campanha-vazia { text-align: left; }
+.campanha-vazia h2 { margin-bottom: 8px; }
+main h1:has(+ .campanha-vazia) { text-align: left; color: #C0392B; }
